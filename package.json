@@ -1,0 +1,49 @@
+{
+  "name": "tangly",
+  "version": "1.0.0-beta",
+  "description": "A library for storing and querying identity related data on the IOTA Tangle",
+  "main": "./dist/tangly.js",
+  "scripts": {
+    "demo": "./node_modules/.bin/http-server -o",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitBounti/tangly.git"
+  },
+  "keywords": [
+    "iota",
+    "tangle",
+    "library",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "author": "Eric Butterfield",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BitBounti/tangly/issues"
+  },
+  "homepage": "https://github.com/BitBounti/tangly#readme",
+  "peerDependencies": {
+    "iota.lib.js": "^0.4.7",
+    "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
+    "http-server": "^0.11.1",
+    "path": "^0.12.7",
+    "webpack": "^3.0.0",
+    "yargs": "^11.0.0"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "iota.lib.js": "^0.4.7"
+  }
+}
