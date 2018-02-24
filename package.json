@@ -1,0 +1,41 @@
+{
+  "name": "tangly",
+  "version": "1.0.0-beta",
+  "description": "A library for storing and querying identity related data on the IOTA Tangle",
+  "main": "./dist/tangly.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitBounti/tangly.git"
+  },
+  "keywords": [
+    "iota",
+    "tangle",
+    "library",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "author": "Eric Butterfield",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BitBounti/tangly/issues"
+  },
+  "homepage": "https://github.com/BitBounti/tangly#readme",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "iota.lib.js": "^0.4.7"
+  },
+  "devDependencies": {
+    "rollup": "^0.56.2",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-gzip": "^1.3.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.3",
+    "rollup-plugin-uglify": "^3.0.0"
+  }
+}
