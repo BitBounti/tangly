@@ -7,13 +7,19 @@ It is sometimes necessary to store meta data like user reputation and stats. Tan
 ```
 npm install --save tangly
 ```
-### Client-side usage
-example.html
-```html
-<script src="../path/to/node_modules/tangly/dist/tangly.js"></script>
+### Demo
 ```
-example.js
+npm run demo
+```
+### Client-side usage
+```html
+<--! example.html -->
+<script src="./node_modules/iota.lib.js/dist/iota.js"></script>
+<script src="./node_modules/crypto-js/crypto-js.js"></script>
+<script src="./node_modules/tangly/dist/tangly.js"></script>
+```
 ```javascript
+// example.js
 const tangly = new window.tangly({
   seed: 'your_seed',
   node: 'https://testnet140.tangle.works'  // testnet node. Can use testnet or mainnet
@@ -22,8 +28,8 @@ const tangly = new window.tangly({
 tangly.find({}).then(data => data)
 ```
 ### Server-side usage
-server.js
 ```javascript
+// server.js
 const Tangly = require('tangly');
 
 const tangly = new Tangly({
@@ -77,9 +83,9 @@ tangly.find(query, field, options)
 ```
 - `query` (`Object`) `required`: Specifies selection filters using query operators. To return all fields, omit this parameter or include an empty object(`{}`). There are currently no query operators available.
 - `field` (`String`) `optional`: The name of the field you are attempting to find.
-- `options` (`Object`) `optional`: Optional search parameters
-  - `history` (`Boolean`) `default` `false`: Flag to return a field's history
-  - `timestamp` (`String`) `default` `true`: flag ti return a timestamp attached to the field
+- `options` (`Object`) `optional`: Optional search parameters.
+  - `history` (`Boolean`) `default` `false`: Flag to return a field's history.
+  - `timestamp` (`String`) `default` `true`: Flag to return a timestamp attached to the field.
 ##### Example
 ###### Single field query
 ```javascript
@@ -95,6 +101,7 @@ tangly.find({}, '', { history: false }).then(data => data)
     - `fieldValue` (`Any`)
     - `timestamp` (`String`)
 ##### Example
+###### Without history
 ```javascript
 {
   firstName: {
@@ -107,11 +114,12 @@ tangly.find({}, '', { history: false }).then(data => data)
   }
 }
 ```
+###### With history
 ```javascript
 {
   firstName: {
     value: 'Jane',
-    timestamp: '34567893233'
+    timestamp: '34567893233',
     history: [
       {
         value: 'jaane'
@@ -119,7 +127,11 @@ tangly.find({}, '', { history: false }).then(data => data)
       }
     ]
   },
-  lastName: 'Doe'
+  firstName: {
+    value: 'Doe',
+    timestamp: '34567893233',
+    history: []
+  }
 }
 ```
 ----

@@ -6,9 +6,9 @@ const tangly = new window.tangly({
 function addData() {
   tangly.insert(
     {
-      firstName: "Jimmy",
-      lastName: "Kimmel",
-      birthDate: "01/04/1983"
+      firstName: "Test",
+      lastName: "McTesterson",
+      birthDate: "01/15/1983"
     },
     {
       tag: 'ATAGIDENTITY'

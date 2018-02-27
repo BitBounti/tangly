@@ -4,9 +4,10 @@
   "description": "A library for storing and querying identity related data on the IOTA Tangle",
   "main": "./dist/tangly.js",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "demo": "./node_modules/.bin/http-server ./demo -o",
+    "prepublish": "npm run build",
+    "build": "./node_modules/.bin/rollup -c rollup.config.dev.js",
+    "dev": "./node_modules/.bin/rollup -c -w rollup.config.dev.js",
+    "demo": "./node_modules/.bin/http-server -o",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,7 +32,9 @@
     "iota.lib.js": "^0.4.7"
   },
   "dependencies": {
-    "crypto-js": "^3.1.9-1"
+    "crypto-js": "^3.1.9-1",
+    "iota.lib.js": "^0.4.7",
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
     "http-server": "^0.11.1",
