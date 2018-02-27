@@ -123,8 +123,7 @@ tangly.find({}, '', { history: false }).then(data => data)
 }
 ```
 ----
-TODO: tangly.anchor
-  - .add()
-  - .set()
+TODO: tangly.addAnchorId()
 
 ----
+TODO: tangly.getAnchorId()
