@@ -79,21 +79,20 @@ tangly.insert(
 Find data that was inserted by the specified seed.
 #### **Input**
 ```javascript
-tangly.find(query, field, options)
+tangly.find(field, options)
 ```
-- `query` (`Object`) `required`: Specifies selection filters using query operators. To return all fields, omit this parameter or include an empty object(`{}`). There are currently no query operators available.
-- `field` (`String`) `optional`: The name of the field you are attempting to find.
+- `field` (`String`) `required`: The name of the field you are attempting to find. An empty string will return all fields.
 - `options` (`Object`) `optional`: Optional search parameters.
   - `history` (`Boolean`) `default` `false`: Flag to return a field's history.
   - `timestamp` (`String`) `default` `true`: Flag to return a timestamp attached to the field.
 ##### Example
 ###### Single field query
 ```javascript
-tangly.find({}, 'firstName', { history: false }).then(data => data)
+tangly.find('firstName', { history: false }).then(data => data)
 ```
 ###### All fields query
 ```javascript
-tangly.find({}, '', { history: false }).then(data => data)
+tangly.find('', { history: true }).then(data => data)
 ```
 #### **Return Value**
 - `Object`
