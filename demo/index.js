@@ -1,4 +1,4 @@
-const tangly = new window.tangly({
+const tangly = new window.tangly.default({
   seed: 'KKOXOHAVWHX9EBROTIWQABN9UEVJRSULCOJTHVXU9XAGYTBSJJJHQLLUWVXJTUPAPBGBFMFXUNGRZIKKM',
   node: 'https://testnet140.tangle.works'
 })
