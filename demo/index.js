@@ -1,21 +1,33 @@
 const tangly = new window.tangly.default({
-  seed: 'KKOXOHAVWHX9EBROTIWQABN9UEVJRSULCOJTHVXU9XAGYTBSJJJHQLLUWVXJTUPAPBGBFMFXUNGRZIKKM',
-  node: 'https://testnet140.tangle.works'
+  seed: 'VOOGDWRRNECRXZTAASVMYZPONDFBAURNFPLFHKIBKXYCIKPISAIXIGCWVNERD9OUEIBZUZCVCRSFFJHGY',
+  node: 'http://nodes.iota.fm:80',
+  tagSecret: '9a41a7fc-b0ba-4275-9826-d194c3e5061f'
 })
 
-function addData() {
-  tangly.insert(
-    {
-      firstName: "Test",
-      lastName: "McTesterson",
-      birthDate: "01/15/1983"
-    },
-    {
-      tag: 'ATAGIDENTITY'
-    }
-  );
+async function testTag() {
+  const tag = await tangly.createTag('QWE');
+  console.log(`Tag: ${ tag }`);
 }
 
-function findData() {
-  tangly.find();
+async function searchTag() {
+  const tag = document.getElementById("tag").value;
+  const data = await tangly.searchTag(tag);
+  console.log(`transferData: ${ JSON.stringify(data) }`);
+}
+
+async function addData() {
+  const name = document.getElementById("name").value;
+  const value = document.getElementById("value").value;
+  const insert = await tangly.insert({
+    [name]: value
+  },
+  {
+    tagSuffix: 'EXP'
+  });
+  console.log(`Data Inserted successfully: ${ JSON.stringify(insert) }`)
+}
+
+async function findData() {
+  const tangleData = await tangly.find();
+  console.log("tangle data:", tangleData);
 }

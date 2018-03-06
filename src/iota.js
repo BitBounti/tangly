@@ -1,12 +1,13 @@
 import IOTA from 'iota.lib.js';
-import { decrypt } from './crypto.js';
+import { decrypt, generateHash } from './crypto.js';
 
 export default class Iota {
-  constructor(node, seed) {
+  constructor(node, seed, tagSecret) {
     this.iota = new IOTA({
       'provider': node
     });
     this.seed = seed;
+    this.tagSecret = tagSecret;
   }
 
   getAccountData() {
@@ -34,7 +35,8 @@ export default class Iota {
 
   sendTransfer(transferData) {
     return new Promise((resolve, reject) => {
-      return this.iota.api.sendTransfer(this.seed, 4, 9, transferData, (err, transferObject) => {
+      return this.iota.api.sendTransfer(this.seed, 3, 14, transferData, (err, transferObject) => {
+        debugger;
         if (err) {
           return reject(err);
         }
@@ -44,39 +46,58 @@ export default class Iota {
   }
 
   extractTransferMessages(accountData) {
-    accountData.transfers.forEach((transfer) => {
-      debugger;
+    return accountData.transfers.reduce((acc, transfer) => {
       let message = this.iota.utils.extractJson(transfer);
       if (message === null) return;
 
       message = JSON.parse(message);
       if (message.encryptedData) {
-        console.log("decrypted message: ", decrypt(this.seed, message.encryptedData));
+        const decryptedMessage = decrypt(this.seed, message.encryptedData);
+        acc.push(decryptedMessage);
+
+        return acc;
       }
-    })
+    }, [])
   }
 
   fromTrytes(trytes) {
     return this.iota.utils.fromTrytes(trytes)
   }
 
-  async attachToTangle(data, config) {
-    debugger;
+  toTrytes(text) {
+    return this.iota.utils.toTrytes(text)
+  }
+
+  findTransaction(tag) {
+    return new Promise((resolve, reject) => {
+      return this.iota.api.findTransactionObjects({ tags: [ tag ]}, (err, transactions) => {
+        if (err) {
+          console.log(err)
+          return reject(err);
+        }
+        return resolve(transactions);
+      })
+    })
+  }
+
+  generateTag(tagSuffix = "999") {
+    // use a seed and a secret token to generate a 24 character tryte. 3 extra characters can be added for querying purposes.
+    const hash = generateHash(this.seed, this.tagSecret);
+    const trytes = this.iota.utils.toTrytes(hash);
+    const trimmedTrytes = trytes.slice(0, 24);
+    const finalTag = trimmedTrytes + tagSuffix;
+
+    return finalTag;
+  }
+
+  async attachToTangle(data, options) {
     const newAddress = await this.getNewAddress();
-    debugger;
     const transferData = [{
       'address': newAddress,
       'value': 0,
       'message': this.iota.utils.toTrytes(JSON.stringify(data)),
-      'tag': config.tag
+      'tag': this.generateTag(options.tagSuffix)
     }]
-    this.sendTransfer(transferData)
-      .then((transferObject) => {
-        console.log("transfer object:", transferObject);
-        return transferData;
-      })
-      .catch((err) => {
-        console.log("err", err);
-      })
+    return await this.sendTransfer(transferData)
   }
 }

@@ -1,32 +1,41 @@
-import { encrypt, decrypt } from './crypto';
+import { encrypt, decrypt, generateTag, generateSecretKey } from './crypto';
 import Iota from './iota';
+import { untangle } from './util/format';
 
 export default class Tangly {
   constructor(config) {
     this.seed = config.seed;
     this.node = config.node;
-    this.iota = new Iota(this.node, this.seed);
+    this.tagSecret = config.tagSecret;
+    this.iota = new Iota(this.node, this.seed, this.tagSecret);
   }
 
-  async insert(data, config) {
+  createTag(tagSuffix) {
+    return this.iota.generateTag(tagSuffix);
+  }
+
+  async searchTag(tag) {
+    return await this.iota.findTransaction(tag);
+  }
+
+  async insert(data, options) {
     console.log("INSERTING...");
     const encryptedData = encrypt(this.seed, data);
     console.log(`encrypted data: ${encryptedData}`);
-    const dataObject = {
-      encryptedData
-    };
-    debugger;
-    const attachedData = await this.iota.attachToTangle(dataObject, config);
-    console.log("attachedData:", attachedData);
+    const dataObject = { encryptedData };
+    const attachedData = await this.iota.attachToTangle(dataObject, options);
 
-    const decryptedData = decrypt(this.seed, encryptedData);
-    console.log(`decrypted data: ${JSON.stringify(decryptedData)}`);
+    return attachedData;
   }
 
-  async find(field) {
+  async find(field, options={ history: false, timestamp: true }) {
     console.log("finding fields...")
     const accountData = await this.iota.getAccountData();
-    const messages = this.iota.extractTransferMessages(accountData);
-    console.log("account data:", accountData);
+    console.log(`accountData: ${ JSON.stringify(accountData) }`);
+    const rawMessages = this.iota.extractTransferMessages(accountData);
+    const formattedData = untangle(rawMessages, options);
+
+    return formattedData;
+    console.log(`raw messages: ${JSON.stringify(rawMessages)}`);
   }
 }

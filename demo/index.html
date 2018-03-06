@@ -10,6 +10,19 @@
   <script src="./index.js"></script>
 </head>
 <body>
+  <form>
+    <label for="name">Name</label>
+    <input id="name" />
+    </br>
+    <label for="value">Value</label>
+    <input id="value" />
+  </form>
+  <form>
+    <label for="tag">Search for Tag</label>
+    <input id="tag" />
+    <button type="button" onclick="searchTag()">Search</button>
+  </form>
+  <button type="button" onclick="testTag()">Test Tag</button>
   <button type="button" onclick="addData()">Add Data</button>
   <button type="button" onclick="findData()">Find Data</button>
   <p>Open console to see logs and data</p>
