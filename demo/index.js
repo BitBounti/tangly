@@ -5,8 +5,12 @@ const tangly = new window.tangly.default({
 })
 
 async function testTag() {
-  const tag = await tangly.createTag('QWE');
+  const tag = await tangly.createTag();
   console.log(`Tag: ${ tag }`);
+}
+
+function generateSeed() {
+  console.log(tangly.generateSeed());
 }
 
 async function searchTag() {
@@ -19,10 +23,9 @@ async function addData() {
   const name = document.getElementById("name").value;
   const value = document.getElementById("value").value;
   const insert = await tangly.insert({
-    [name]: value
-  },
-  {
-    tagSuffix: 'EXP'
+    name: 'Bob',
+    hobbies: [ 'crochetting', 'video games', 'eating' ],
+    career: 'Web Dev'
   });
   console.log(`Data Inserted successfully: ${ JSON.stringify(insert) }`)
 }

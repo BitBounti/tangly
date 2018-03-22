@@ -41,6 +41,23 @@ tangly.insert({ firstName: "Jane" })
   .then(data => data)
 ```
 ## API
+### `tangly.generateSeed()`
+Generate a random seed.
+#### **Input**
+```javascript
+tangly.generateSeed()
+```
+##### Example
+```javascript
+const seed = tangly.generateSeed()
+```
+#### **Return Value**
+- `String`: Generated seed
+##### Example
+```javascript
+'VOOGDWRRNECRXZTAASVMYZPONDFBAURNFPLFHKIBKXYCIKPISAIXIGCWVNERD9OUEIBZUZCVCRSFFJHGY'
+```
+-------
 ### `tangly.insert()`
 Insert an object into the Tangle by attaching a zero-value transaction.
 #### **Input**
@@ -66,7 +83,6 @@ tangly.insert(
 - `Object`
   - `address` (`String`): Address that was used to insert data into the Tangle.
   - `tag` (`String`): Tag that was assigned.
-  - `generatedSeed` (`String`): If no seed was supplied a seed will be generated and returned here.
 ##### Example
 ```javascript
 {

@@ -1,4 +1,4 @@
-import { encrypt, decrypt, generateTag, generateSecretKey } from './crypto';
+import { encrypt, decrypt, generateTag, generateSecretKey, seedGen } from './crypto';
 import Iota from './iota';
 import { untangle } from './util/format';
 
@@ -10,12 +10,16 @@ export default class Tangly {
     this.iota = new Iota(this.node, this.seed, this.tagSecret);
   }
 
-  createTag(tagSuffix) {
-    return this.iota.generateTag(tagSuffix);
+  createTag() {
+    return this.iota.generateTag();
   }
 
   async searchTag(tag) {
     return await this.iota.findTransaction(tag);
+  }
+
+  generateSeed() {
+    return seedGen(81);
   }
 
   async insert(data, options) {
@@ -28,10 +32,9 @@ export default class Tangly {
     return attachedData;
   }
 
-  async find(field, options={ history: false, timestamp: true }) {
+  async find(field, options={ history: true, timestamp: true }) {
     console.log("finding fields...")
     const accountData = await this.iota.getAccountData();
-    console.log(`accountData: ${ JSON.stringify(accountData) }`);
     const rawMessages = this.iota.extractTransferMessages(accountData);
     const formattedData = untangle(rawMessages, options);
 

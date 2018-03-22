@@ -22,6 +22,23 @@ export function generateHash(seed, secret) {
   return CryptoJS.SHA256(secret + seed).toString()
 }
 
+export function seedGen(length) {
+  var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ9";
+  var i;
+  var result = "";
+  if (window.crypto && window.crypto.getRandomValues) {
+    var values = new Uint32Array(length);
+    window.crypto.getRandomValues(values);
+    for (i = 0; i < length; i++) {
+      result += charset[values[i] % charset.length];
+    }
+    return result;
+  } else
+    throw new Error(
+      "Your browser sucks and can't generate secure random numbers"
+    );
+};
+
 export function generateTag(seed, secret, tagSuffix="999") {
   // use a seed and a secret token to generate a 24 character tryte. 3 extra characters can be added for querying purposes.
   const hash = CryptoJS.SHA256(secret + seed).toString();

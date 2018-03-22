@@ -36,7 +36,6 @@ export default class Iota {
   sendTransfer(transferData) {
     return new Promise((resolve, reject) => {
       return this.iota.api.sendTransfer(this.seed, 3, 14, transferData, (err, transferObject) => {
-        debugger;
         if (err) {
           return reject(err);
         }
@@ -53,6 +52,7 @@ export default class Iota {
       message = JSON.parse(message);
       if (message.encryptedData) {
         const decryptedMessage = decrypt(this.seed, message.encryptedData);
+        decryptedMessage.timestamp = transfer[0].timestamp;
         acc.push(decryptedMessage);
 
         return acc;
@@ -80,23 +80,23 @@ export default class Iota {
     })
   }
 
-  generateTag(tagSuffix = "999") {
+  generateTag() {
     // use a seed and a secret token to generate a 24 character tryte. 3 extra characters can be added for querying purposes.
     const hash = generateHash(this.seed, this.tagSecret);
     const trytes = this.iota.utils.toTrytes(hash);
-    const trimmedTrytes = trytes.slice(0, 24);
-    const finalTag = trimmedTrytes + tagSuffix;
-
+    const trimmedTrytes = trytes.slice(0, 27);
+    const finalTag = trimmedTrytes;
+    console.log("tag:", finalTag);
     return finalTag;
   }
 
-  async attachToTangle(data, options) {
+  async attachToTangle(data, options = {}) {
     const newAddress = await this.getNewAddress();
     const transferData = [{
       'address': newAddress,
       'value': 0,
       'message': this.iota.utils.toTrytes(JSON.stringify(data)),
-      'tag': this.generateTag(options.tagSuffix)
+      'tag': options.tag || this.generateTag()
     }]
     return await this.sendTransfer(transferData)
   }

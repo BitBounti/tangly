@@ -18,8 +18,26 @@ function mergeMessagesWithHistory(messages) {
 function mergeMessagesWithoutHistory(messages) {
   return messages.reduce((acc, message) => {
     for (let key in message) {
-      acc[key] = {
-        value: message[key]
+      acc[key] = message[key];
+    }
+    return acc;
+  }, {})
+}
+
+function mergeMessagesWithHistory(messages) {
+  return messages.reduce((acc, message) => {
+    for (let key in message) {
+      if (acc.hasOwnProperty(key)) {
+        if (acc[key].history) {
+          message[key].history = acc[key].history;
+          message[key].history.unshift({ value: acc[key].value, timestamp: acc[key].timestamp });
+        } else {
+          message[key].history = [];
+          message[key].history.push(acc[key]);
+        }
+        acc[key] = message[key];
+      } else {
+        acc[key] = message[key];
       }
     }
     return acc;
@@ -28,13 +46,10 @@ function mergeMessagesWithoutHistory(messages) {
 
 function separateObjects(messages) {
   return messages.reduce((acc, message) => {
-    if (Object.keys(message).length <= 1) {
-      acc.push(message);
-
-      return acc;
-    }
     for (let item in message) {
-      acc.push({ [item]: message[item] });
+      if (item !== 'timestamp') {
+        acc.push({ [item]: { value: message[item], timestamp: message.timestamp } });
+      }
     }
 
     return acc;
@@ -43,6 +58,11 @@ function separateObjects(messages) {
 
 export function untangle(messages, options) {
   const separatedMessages = separateObjects(messages);
-  const finalObject = mergeMessagesWithoutHistory(separatedMessages);
+  console.log("separated messages:", separatedMessages);
+  if (options.history) {
+    return mergeMessagesWithHistory(separatedMessages);
+  } else {
+    return mergeMessagesWithoutHistory(separatedMessages);
+  }
   console.log(`Final Object: ${ JSON.stringify(finalObject) }`)
 }
