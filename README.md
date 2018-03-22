@@ -100,7 +100,6 @@ tangly.find(field, options)
 - `field` (`String`) `required`: The name of the field you are attempting to find. An empty string will return all fields.
 - `options` (`Object`) `optional`: Optional search parameters.
   - `history` (`Boolean`) `default` `false`: Flag to return a field's history.
-  - `timestamp` (`String`) `default` `true`: Flag to return a timestamp attached to the field.
 ##### Example
 ###### Single field query
 ```javascript
@@ -113,7 +112,7 @@ tangly.find('', { history: true }).then(data => data)
 #### **Return Value**
 - `Object`
   - `fieldName` (`Object`)
-    - `fieldValue` (`Any`)
+    - `value` (`Any`)
     - `timestamp` (`String`)
 ##### Example
 ###### Without history
@@ -141,11 +140,6 @@ tangly.find('', { history: true }).then(data => data)
         timestamp: '3456789876'
       }
     ]
-  },
-  firstName: {
-    value: 'Doe',
-    timestamp: '34567893233',
-    history: []
   }
 }
 ```
