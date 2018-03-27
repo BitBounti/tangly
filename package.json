@@ -1,8 +1,8 @@
 {
-  "name": "tangly",
+  "name": "@bitbounti-oss/tangly",
   "version": "1.0.0-beta",
   "description": "A library for storing and querying identity related data on the IOTA Tangle",
-  "main": "./dist/tangly.js",
+  "main": "./lib/tangly.js",
   "scripts": {
     "demo": "./node_modules/.bin/http-server -o",
     "dev": "webpack --progress --colors --watch --env dev",
