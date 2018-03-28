@@ -1,3 +1,4 @@
+https://tangly.io
 # Tangly: Identity library for the IOTA Tangle
 Tangly (tangle + identity) interfaces with the IOTA Tangle; allowing for storing and retrieving data based on a seed. Instead of a user registering and sending sensitive data to a centralized data store, user data is encrypted based off of the user's seed that only the user knows and stored in the decentralized Tangle. The Tangle has the unique property of having free transactions which allows for data to be stored through Tangly one field at a time. Data is then retrieved and decrypted based off of a user's seed. No sensitive data needs to touch a centralized database, not even a username and password.
 
@@ -8,6 +9,7 @@ It is sometimes necessary to store meta data like user reputation and stats. Tan
 npm install --save tangly
 ```
 ### Demo
+###### Better demo coming soon to [https://tangly.io](https://tangly.io)
 ```
 npm run demo
 ```
