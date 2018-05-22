@@ -147,6 +147,8 @@ tangly.find('', { history: true }).then(data => data)
 ```
 ----
 TODO: tangly.addAnchorId()
+Anchors are used to connect tangle profiles with other systems for the purpose of storing and connecting meta data about the profile. When an anchorId is created, it is stored in the tangle just like all other data that we add. It can then be used to connected to another system for adding data like reputation or analytics.
 
 ----
 TODO: tangly.getAnchorId()
+This function will retrieve the anchorId from the tangle for the corresponding seed.
